@@ -20,16 +20,30 @@
           ></b-form-input>
           <br>
           <b-button type="submit" variant="primary">Gerar Relatório Mensal</b-button>
-          
-          <!-- <div v-for="produto in BuscaProduto.produtos" :key="produto" class="pill">
-            {{ ""+produto[0]+ " R$"+produto[1] }}
-          </div> -->
 
         </b-form>
         
       </div>
   
+      <br><br>
+      
+      <div v-for="relatorio in RelatorioVendas.relatorio" :key="relatorio" class="pill">
+        <table class="styled-table"> <thead><tr><td>Data da Venda</td><td>Valor</td></tr></thead>
+          <tr><td>{{ RelatorioVendas.relatorio[0][0][0] }}</td><td>{{ "R$ " +RelatorioVendas.relatorio[0][0][1] }}</td></tr>
+          <tr><td>{{ RelatorioVendas.relatorio[0][1][0] }}</td><td>{{ "R$ " +RelatorioVendas.relatorio[0][1][1] }}</td></tr>
+          <tr><td>{{ RelatorioVendas.relatorio[0][2][0] }}</td><td>{{ "R$ " +RelatorioVendas.relatorio[0][2][1] }}</td></tr>
+          <tr><td>{{ RelatorioVendas.relatorio[0][3][0] }}</td><td>{{ "R$ " +RelatorioVendas.relatorio[0][3][1] }}</td></tr>
+          <tr class="active-row"><td>Valor Total</td><td>{{ "R$ " +RelatorioVendas.total }}</td></tr>
+        </table>
+                 
+        <br><br>
+      </div>
+      <div id="relatorio">
+
+        
+      </div>
     </div>
+   
   </template>
   
   <script>
@@ -40,7 +54,9 @@
       return {
         RelatorioVendas: {
           dataVendaInicio: '',
-          dataVendaFim:  ''
+          dataVendaFim:  '',
+          relatorio: '',
+          total: ''
         }
       }
     },
@@ -63,13 +79,25 @@
       }
     },
     methods: {
-      relatoriovendas(e){
-          if (e.key === ' ' && this.dataAtual){
+      relatoriovendas(){
             this.$http.get('/listavendas/:dataVenda?dataVendaInicio='+this.RelatorioVendas.dataVendaInicio+'&dataVendaFim='+this.RelatorioVendas.dataVendaFim)
             .then(response => {
-                console.log(response.data);
+                var x = document.getElementById("relatorio");
+                x.style.display = "block";
+                this.RelatorioVendas.relatorio = []
+                this.RelatorioVendas.relatorio[0] = []
+                let contador = 0
+                let total = 0
+                console.log (response.data.length)
+                while(response.data.length > contador){
+                  this.RelatorioVendas.relatorio[0][contador] = []
+                  this.RelatorioVendas.relatorio[0][contador][0] = response.data[contador].dataVenda
+                  this.RelatorioVendas.relatorio[0][contador][1] = response.data[contador].valorTotal
+                  total = total + response.data[contador].valorTotal
+                  contador++
+                }
+                this.RelatorioVendas.total = total
             })
-          }
         },
       },
     };
@@ -80,4 +108,39 @@
           max-width: 400px;
           margin: auto;
       }
-  </style>
+  #relatorio {
+    display: none;
+  }
+  .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+    </style>
