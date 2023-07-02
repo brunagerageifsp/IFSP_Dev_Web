@@ -70,6 +70,22 @@
         },
       }
     },
+    mounted: function () {
+      console.log("---- Token cookie ---");
+      console.log(document.cookie);
+      console.log(!(document.cookie != ""));
+      if(!(document.cookie != "")){
+        console.log("Entrou no redirect");
+        this.$router.push("/login");
+      }else{
+        console.log("--- Verifica token ---")
+        this.$http.get('/verificaToken/id?id='+document.cookie)
+          .then(response => {
+            console.log("Entrou verifica token")
+            console.log(response);
+          })
+      }
+    },
     methods: {
         listaprodutos(e){
           if (e.key === ' ' && this.BuscaProduto.codbarra){

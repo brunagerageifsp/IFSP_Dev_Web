@@ -1,0 +1,3 @@
+sequelize-automate -c "./config/sequelize-automate.config.json"
+
+node index.js

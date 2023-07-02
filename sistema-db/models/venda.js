@@ -21,23 +21,23 @@ module.exports = sequelize => {
       comment: null,
       field: "formaPagamento"
     },
-    dataCompra: {
+    dataVenda: {
       type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "dataCompra"
+      field: "dataVenda"
     },
-    valoTotal: {
-      type: DataTypes.DOUBLE,
+    valorTotal: {
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "valoTotal"
+      field: "valorTotal"
     }
   };
   const options = {

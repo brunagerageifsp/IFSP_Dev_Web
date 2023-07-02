@@ -16,6 +16,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "SobreView" */ '../views/SobreView.vue')
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
+  },
+  {
     path: '/cadastraproduto',
     name: 'cadastraproduto',
     component: () => import(/* webpackChunkName: "CadastraProduto" */ '../views/CadastraProduto.vue')
@@ -29,6 +34,11 @@ const routes = [
     path: '/cadastravenda',
     name: 'cadastravenda',
     component: () => import(/* webpackChunkName: "CadastraVenda" */ '../views/CadastraVenda.vue')
+  },
+  {
+    path: '/relatoriovendas',
+    name: 'relatoriovendas',
+    component: () => import(/* webpackChunkName: "RelatorioVendas" */ '../views/RelatorioVendas.vue')
   }
 ]
 

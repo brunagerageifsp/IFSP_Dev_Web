@@ -59,18 +59,36 @@
         }
       }
     },
-   methods: {
-     cadastrafuncionario() {
-     let payload = this.$http.post('/cadastrafuncionario', this.NovoFuncionario)
-    .then(response => {
-      console.log(response);
-      console.log(payload.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    mounted: function () {
+      console.log("---- Token cookie ---");
+      console.log(document.cookie);
+      console.log(!(document.cookie != ""));
+      if(!(document.cookie != "")){
+        console.log("Entrou no redirect");
+        this.$router.push("/login");
+      }else{
+        console.log("--- Verifica token ---")
+        this.$http.get('/verificaToken/id?id='+document.cookie)
+          .then(response => {
+            if(response.role == "admin"){
+              console.log("Entrou verifica token")
+              console.log(response);
+            }
+          })
+      }
     },
-   },
+    methods: {
+      cadastrafuncionario() {
+      let payload = this.$http.post('/cadastrafuncionario', this.NovoFuncionario)
+      .then(response => {
+        console.log(response);
+        console.log(payload.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      },
+    },
   };
   </script>
   
